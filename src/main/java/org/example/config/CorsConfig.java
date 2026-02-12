@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginsPatterns("https://bright-minds-lilac.vercel.app")
+                        .allowedOrigins("https://bright-minds-lilac.vercel.app")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -23,4 +23,5 @@ public class CorsConfig {
     }
 
 }
+
 
