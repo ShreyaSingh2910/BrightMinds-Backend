@@ -16,12 +16,12 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins("https://bright-minds-lilac.vercel.app")
                         .allowedMethods("*")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowedHeaders("*");
             }
         };
     }
 
 }
+
 
 
