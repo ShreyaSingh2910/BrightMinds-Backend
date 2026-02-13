@@ -18,6 +18,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+    .headers(headers -> headers
+        .crossOriginOpenerPolicy(coop -> coop.disable())
+        )
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
     
@@ -50,4 +53,5 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
 
