@@ -18,9 +18,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-    .headers(headers -> headers
-        .crossOriginOpenerPolicy(coop -> coop.disable())
-        )
+                .headers(headers -> headers
+    .crossOriginOpenerPolicy(coop ->
+        coop.policy(org.springframework.security.web.header.writers.CrossOriginOpenerPolicyHeaderWriter.CrossOriginOpenerPolicy.UNSAFE_NONE)
+    )
+)
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
     
@@ -53,5 +55,6 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
 
 
