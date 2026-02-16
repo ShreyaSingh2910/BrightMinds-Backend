@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
     
                 .authorizeHttpRequests(auth -> auth
-                        // ✅ allow all static frontend files
+                        
                         .requestMatchers(
                                 "/",
                                 "/*.html",
@@ -43,10 +43,8 @@ public class SecurityConfig {
                                 "/WordBuilder/**"
                         ).permitAll()
 
-                        // ✅ allow API for now
                         .requestMatchers("/api/**").permitAll()
 
-                        // everything else
                         .anyRequest().permitAll()
 
                 )
@@ -55,6 +53,7 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
 
 
 
