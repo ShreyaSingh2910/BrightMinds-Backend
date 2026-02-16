@@ -21,7 +21,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserScores> scores = new ArrayList<>();
 
-    private String name; // New
+    private String name; 
     @Column(updatable = false)
     private LocalDateTime dateJoined;
     String avatar;
@@ -74,3 +74,4 @@ public class User {
         this.scores = scores;
     }
 }
+
