@@ -31,7 +31,6 @@ protected void doFilterInternal(
 
     String authHeader = request.getHeader("Authorization");
 
-    // ✅ FIX: check null and format
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
         chain.doFilter(request, response);
         return;
@@ -56,4 +55,5 @@ protected void doFilterInternal(
     chain.doFilter(request, response);
 }
 }
+
 
