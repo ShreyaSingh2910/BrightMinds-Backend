@@ -35,11 +35,9 @@ public class GameServiceImpl implements GameService {
         return idx == -1 ? gameName : gameName.substring(0, idx);
     }
 
-    // ---------------- SAVE SCORE ----------------
     @Transactional
     public String saveScore(ScoreRequest request) {
 
-        // 🔐 User MUST already exist
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
                         new RuntimeException("Profile not created yet"));
@@ -48,8 +46,6 @@ public class GameServiceImpl implements GameService {
                 .map(existing -> {
                     existing.setScore(existing.getScore() + request.getScore());
                     existing.setGamesPlayed(existing.getGamesPlayed() + 1);
-
-                    // ✅ REQUIRED SAVE
                     userScoreRepository.save(existing);
 
                     return "Score updated";
@@ -61,8 +57,6 @@ public class GameServiceImpl implements GameService {
                             user
                     );
                     us.setGamesPlayed(1);
-
-                    // ✅ REQUIRED SAVE
                     userScoreRepository.save(us);
 
                     return "First time played";
@@ -119,8 +113,6 @@ public class GameServiceImpl implements GameService {
         }
 
         String baseGame = getBaseGame(gameName);
-
-        // 🔹 USER GAME ENTRIES
         List<UserScores> gameEntries = user.getScores().stream()
                 .filter(s -> getBaseGame(s.getGameName())
                         .equalsIgnoreCase(baseGame))
@@ -134,12 +126,10 @@ public class GameServiceImpl implements GameService {
                 .mapToInt(UserScores::getGamesPlayed)
                 .sum();
 
-        // 🔹 AVG SCORE (overall / 12)
         double avgScore = user.getScores().stream()
                 .mapToInt(UserScores::getScore)
                 .sum() / 12.0;
 
-        // 🔹 RANK LOGIC
         int rank = 1;
 
         List<User> allUsers = userRepository.findAll();
@@ -159,7 +149,6 @@ public class GameServiceImpl implements GameService {
             }
         }
 
-        // 🔹 FINAL RESPONSE
         return new ProfileResponse(
                 user.getName(),
                 user.getAvatar(),
@@ -173,10 +162,9 @@ public class GameServiceImpl implements GameService {
 
     public List<LeaderBoardEntry> getLeaderboard() {
 
-        List<UserScores> scores = gsr.findAll(); // get all scores
+        List<UserScores> scores = gsr.findAll(); 
         Map<User, Integer> userTotalScore = new HashMap<>();
 
-        // 🔹 1. Sum scores per user
         for (UserScores us : scores) {
             User user = us.getUser();
             userTotalScore.put(
@@ -185,14 +173,12 @@ public class GameServiceImpl implements GameService {
             );
         }
 
-        // 🔹 2. Sort users by total score DESC
         List<Map.Entry<User, Integer>> sorted =
                 userTotalScore.entrySet()
                         .stream()
                         .sorted((a, b) -> b.getValue() - a.getValue())
                         .toList();
 
-        // 🔹 3. Assign ranks
         List<LeaderBoardEntry> leaderboard = new ArrayList<>();
         int rank = 1;
 
@@ -203,7 +189,7 @@ public class GameServiceImpl implements GameService {
                     new LeaderBoardEntry(
                             rank++,
                             u.getName(),
-                            u.getEmail(),   // ✅ SEND EMAIL
+                            u.getEmail(),   
                             entry.getValue()
                     )
             );
@@ -211,6 +197,7 @@ public class GameServiceImpl implements GameService {
 
         return leaderboard;
     }
+
 
 
 }
