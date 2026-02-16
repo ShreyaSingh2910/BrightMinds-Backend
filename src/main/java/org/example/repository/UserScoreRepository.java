@@ -8,11 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserScoreRepository extends JpaRepository<UserScores, Long> {
-
-    // For saveScore (already using)
+    
     java.util.Optional<UserScores> findByUserAndGameName(User user, String gameName);
 
-    // 🔥 Leaderboard by game
     @Query("""
         SELECT us
         FROM UserScores us
@@ -21,7 +19,6 @@ public interface UserScoreRepository extends JpaRepository<UserScores, Long> {
     """)
     List<UserScores> findLeaderboard(@Param("gameName") String gameName);
 
-    // 🔥 Recently played game (latest updated)
     @Query("""
         SELECT us
         FROM UserScores us
@@ -30,3 +27,4 @@ public interface UserScoreRepository extends JpaRepository<UserScores, Long> {
     """)
     List<UserScores> findRecentGame(@Param("email") String email);
 }
+
