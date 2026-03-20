@@ -1,6 +1,5 @@
 package org.example.service;
-
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.example.dto.LeaderBoardEntry;
 import org.example.dto.ProfileResponse;
 import org.example.dto.ScoreRequest;
