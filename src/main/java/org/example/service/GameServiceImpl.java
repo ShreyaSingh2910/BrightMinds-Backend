@@ -43,7 +43,7 @@ public class GameServiceImpl implements GameService {
 
         return userScoreRepository.findByUserAndGameName(user, request.getGameName())
                 .map(existing -> {
-                   existing.setScore(request.getScore()); // ✅ overwrite, don't add
+                   existing.setScore(existing.getScore() + request.getScore());
                     existing.setGamesPlayed(existing.getGamesPlayed() + 1);
                     userScoreRepository.save(existing);
 
